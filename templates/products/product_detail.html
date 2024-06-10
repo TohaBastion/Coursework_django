@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+
+    <h2>Коментарі</h2>
+    {% for comment in comments %}
+        <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }} ({{ comment.created_at }})</p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Додати коментар</button>
+        </form>
+    {% else %}
+        <p>Будь ласка, увійдіть, щоб додати коментар.</p>
+    {% endif %}
+
+    <a href="{% url 'products' %}">Назад до товарів</a>
+</body>
+</html>

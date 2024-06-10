@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Вихід{% endblock %}
+
+{% block content %}
+<main class="container-fluid text-white">
+    <h1>Ви успішно вийшли із системи</h1>
+    <a href="{% url 'home' %}">Повернутися на головну</a>
+</main>
+{% endblock %}

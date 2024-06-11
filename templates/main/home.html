@@ -1,10 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Головна{% endblock %}
 
 {% block content %}
-<main class="container-fluid text-white">
-    <h1>Вітаємо на нашому сайті!</h1>
-    <p>Це головна сторінка.</p>
-</main>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
+<div class="video-container">
+    <video class="video-background" autoplay loop muted>
+        <source src="{% static 'videos/uyawa.mp4' %}" type="video/mp4">
+        Ваш браузер не підтримує відео.
+    </video>
+    </div>
+    <!-- Весь інший контент на головній сторінці -->
+<div class="content text-center ">
+    <h1 style="font-family: 'Ubuntu', sans-serif"> Вас вітає компанія UYAWA</h1>
+    <p class="lead"><em>Це головна сторінка вашого сайту.</em></p>
+
+</div>
 {% endblock %}

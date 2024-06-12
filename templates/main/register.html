@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Реєстрація{% endblock %}
 
 {% block content %}
-<main class="container-fluid text-white">
+<div class="container">
     <h1>Реєстрація</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Зареєструватися</button>
+        <button type="submit" class="btn btn-primary">Зареєструватися</button>
     </form>
-    <a href="{% url 'home' %}">На головну</a>
-</main>
+</div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from main.models import CustomUser
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -7,6 +7,6 @@ class Product(models.Model):
 
 class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='product_comments')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='product_comments')
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

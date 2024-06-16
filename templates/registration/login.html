@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Увійти{% endblock %}
+{% block title %}Вхід в систему{% endblock %}
 
 {% block content %}
-<main class="container-fluid text-white">
-    <h1>Увійти</h1>
+<main class="container-fluid text-center">
+    <h2>Вхід в систему</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Увійти</button>
+        <button type="submit" class="btn btn-outline-light">Увійти</button>
     </form>
 </main>
 {% endblock %}

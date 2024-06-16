@@ -6,21 +6,26 @@ body {
 }
 
 .logo {
-    height: 60px;
+    height: 55px;
     width: auto;
 }
 
-.nav-link {
-    padding: 10px;
+/*.navbar-toggler .navbar-collapse .navbar-toggler-icon .collapse .navbar .navbar-nav .nav-item .nav-link {*/
+/*    */
+/*}*/
+.navbar .navbar-nav .nav-item .nav-link {
+    color: #e0e0e0;
 }
 
-.nav-link:hover {
-    background-color: #555;
+.navbar .navbar-nav .nav-item .nav-link:hover,
+.navbar .navbar-nav .nav-item .nav-link.active {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     border-radius: 5px;
 }
 
 .auth-block .btn {
-    margin-left: 10px;
+    margin-left: 0;
 }
 
 /* Стилі для відео фону */

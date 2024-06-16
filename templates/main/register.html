@@ -4,12 +4,16 @@
 {% block title %}Реєстрація{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-5 text-center">
     <h1>Реєстрація</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Зареєструватися</button>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                {{ form.as_p }}
+            </div>
+        </div>
+            <button type="submit" class="btn btn-outline-light">Зареєструватися</button>
     </form>
 </div>
 {% endblock %}

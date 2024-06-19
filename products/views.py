@@ -3,26 +3,28 @@ from .models import Product, Comment
 from .forms import CommentForm
 
 
-def products(request):
-    return render(request, 'products/products.html')
+def product_list(request):
+    sort_by = request.GET.get('sort', 'created_at')
+    if sort_by not in ['created_at', 'price', 'name']:
+        sort_by = 'created_at'
+    products = Product.objects.all().order_by(sort_by)
+    return render(request, 'products/products.html', {'products': products, 'sort_by': sort_by})
 
-def services(request):
-    return render(request, 'products/services.html')
 
-
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    comments = Comment.objects.filter(product=product)
-
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    comments = product.comments.all()
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.product = product
-            comment.user = request.user
-            comment.save()
-            return redirect('product_detail', product_id=product.id)
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.product = product
+                comment.user = request.user
+                comment.save()
+                return redirect('product_detail', pk=product.pk)
+        else:
+            return redirect('login')
     else:
         form = CommentForm()
-
     return render(request, 'products/product_detail.html', {'product': product, 'comments': comments, 'form': form})

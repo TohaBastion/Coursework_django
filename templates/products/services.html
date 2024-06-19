@@ -1,10 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Послуги{% endblock %}
 
 {% block content %}
-<main class="container-fluid text-white">
-    <h1>Наші послуги</h1>
-    <p>Опис послуг...</p>
-</main>
+<div class="container mt-3 text-center">
+    <h1>Послуги</h1>
+    <div class="d-flex justify-content-center mb-3">
+        <a href="?sort=name" class="btn btn-outline-light">Сортувати за алфавітом</a>
+        <a href="?sort=price" class="btn btn-outline-light">Сортувати за ціною</a>
+        <a href="?sort=created_at" class="btn btn-outline-light">Сортувати за датою додавання</a>
+    </div>
+    <div class="row">
+        {% for service in services %}
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
+                <div class="card-body text-dark">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <p class="card-text">{{ service.price }} грн</p>
+                    <a href="{% url 'product_detail' service.pk %}" class="btn btn-outline-dark">Деталі</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

@@ -72,3 +72,5 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Некоректний формат прізвища.')
         return last_name.capitalize()
 
+
+

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Comment
+from .models import Product, Comment, Service
 from .forms import CommentForm
 
 
@@ -28,3 +28,30 @@ def product_detail(request, pk):
     else:
         form = CommentForm()
     return render(request, 'products/product_detail.html', {'product': product, 'comments': comments, 'form': form})
+
+
+def service_list(request):
+    sort_by = request.GET.get('sort', 'created_at')
+    if sort_by not in ['created_at', 'price', 'name']:
+        sort_by = 'created_at'
+    services = Service.objects.all().order_by(sort_by)
+    return render(request, 'products/services.html', {'services': services, 'sort_by': sort_by})
+
+
+def service_detail(request, pk):
+    service = get_object_or_404(Service, pk=pk)
+    comments = service.comments.all()
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.service = service
+                comment.user = request.user
+                comment.save()
+                return redirect('service_detail', pk=service.pk)
+        else:
+            return redirect('login')
+    else:
+        form = CommentForm()
+    return render(request, 'products/service_detail.html', {'service': service, 'comments': comments, 'form': form})

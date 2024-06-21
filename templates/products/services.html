@@ -13,13 +13,13 @@
     </div>
     <div class="row">
         {% for service in services %}
-        <div class="col-md-3 mb-3">
-            <div class="card">
+        <div class="col-md-3 mb-3 ">
+            <div class="card bg-dark">
                 <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
-                <div class="card-body text-dark">
+                <div class="card-body text-wight">
                     <h5 class="card-title">{{ service.name }}</h5>
-                    <p class="card-text">{{ service.price }} грн</p>
-                    <a href="{% url 'product_detail' service.pk %}" class="btn btn-outline-dark">Деталі</a>
+                    <p class="card-text text-light">{{ service.price }} грн</p>
+                    <a href="{% url 'service_detail' service.pk %}" class="btn btn-outline-light">Деталі</a>
                 </div>
             </div>
         </div>

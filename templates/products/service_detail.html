@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ product.name }}{% endblock %}
+{% block title %}{{ service.name }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5 text-center">
-    <h1>{{ product.name }}</h1>
-    <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
-    <p>{{ product.description }}</p>
-    <p>Ціна: {{ product.price }} грн</p>
+    <h1>{{ service.name }}</h1>
+    <img src="{{ service.image.url }}" class="img-fluid" alt="{{ service.name }}">
+    <p>{{ service.description }}</p>
+    <p>Ціна: {{ service.price }} грн</p>
     <h3>Коментарі</h3>
     <div class="mb-3">
         {% for comment in comments %}

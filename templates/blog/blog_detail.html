@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.published_date }}</p>
+    <div class="content mb-4">
+        {{ post.content }}
+    </div>
+    <h3>Коментарі</h3>
+    <div class="comments mb-4">
+        {% for comment in comments %}
+            <div class="card mb-2 bg-dark" style="width: fit-content">
+                <div class="card-body">
+                    <p class="card-text text-light" style="font-size: small">{{ comment.text }}</p>
+                    <p class="card-text"><small class="text-muted" style="font-size: x-small">Автор: {{ comment.user.username }} | Дата: {{ comment.created_at }}</small></p>
+                </div>
+            </div>
+        {% empty %}
+            <p>Коментарів ще немає.</p>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+        <h3>Додати коментар</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Додати коментар</button>
+        </form>
+    {% else %}
+        <p>Будь ласка, <a href="{% url 'login' %}">увійдіть</a> для того, щоб залишити коментар.</p>
+    {% endif %}
+    <a href="{% url 'blog_home' %}" class="btn btn-secondary mt-3">Назад до блогу</a>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Оформлення замовлення</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.address.label_tag }}
+            {{ form.address }}
+        </div>
+        <div class="form-group">
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+        </div>
+        <h4>Ваш кошик:</h4>
+        <table class="table table-striped text-light">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Кількість</th>
+                    <th>Ціна за одиницю</th>
+                    <th>Загальна ціна</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.total_item_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"><strong>Загальна ціна:</strong></td>
+                    <td><strong>{{ total_price|floatformat:2 }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-outline-light">Підтвердити замовлення</button>
+    </form>
+</div>
+{% endblock %}

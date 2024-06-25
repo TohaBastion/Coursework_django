@@ -1,17 +1,14 @@
 import os
 import django
-import random
-from django.contrib.auth import get_user_model
 from faker import Faker
-from blog.models import Post, Comment
-from main.models import CustomUser
-# from products.models import Product, Comment, Service, CommentService
-
+import random
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Courswork_django.settings')
 django.setup()
 
-
+from main.models import CustomUser
+from products.models import Product, Service
+from blog.models import Post, Comment
 
 fake = Faker()
 
@@ -20,79 +17,82 @@ def create_users(n):
     for _ in range(n):
         username = fake.user_name()
         email = fake.email()
+        password = "password123"
         first_name = fake.first_name()
         last_name = fake.last_name()
-        phone_number = '+380' + fake.msisdn()[3:12]
-        password = 'password123'
-        CustomUser.objects.create_user(
+        phone_number = "+380" + "".join(random.choices("0123456789", k=9))
+
+        user = CustomUser.objects.create_user(
             username=username,
+            email=email,
+            password=password,
             first_name=first_name,
             last_name=last_name,
-            email=email,
-            phone_number=phone_number,
-            password=password
+            phone_number=phone_number
         )
+        print(f"Created user: {username}")
+
+
+def create_products(n):
+    for _ in range(n):
+        name = fake.word().capitalize()
+        description = fake.text(max_nb_chars=200)
+        price = round(random.uniform(10.0, 100.0), 2)
+        image = fake.image_url()
+
+        product = Product.objects.create(
+            name=name,
+            description=description,
+            price=price,
+            image=image
+        )
+        print(f"Created product: {name}")
 
 
 def create_services(n):
     for _ in range(n):
         name = fake.word().capitalize()
-        description = fake.text()
-        price = round(random.uniform(10.0, 1000.0), 2)
-        photo = 'static/images/products/all-metalic.jpg'
+        description = fake.text(max_nb_chars=200)
+        price = round(random.uniform(50.0, 500.0), 2)
+
         service = Service.objects.create(
             name=name,
             description=description,
-            price=price,
-            image=photo
+            price=price
         )
-
-        users = CustomUser.objects.all()
-        for _ in range(random.randint(1, 5)):
-            CommentService.objects.create(
-                user=random.choice(users),
-                service=service,
-                text=fake.text()
-            )
-
-def create_products(n):
-    for _ in range(n):
-        name = fake.word().capitalize()
-        description = fake.text()
-        price = round(random.uniform(10.0, 1000.0), 2)
-        photo = 'static/images/products/photo.jpg'
-        product = Product.objects.create(
-            name=name,
-            description=description,
-            price=price,
-            image=photo
-        )
-
-        users = CustomUser.objects.all()
-        for _ in range(random.randint(1, 5)):
-            Comment.objects.create(
-                user=random.choice(users),
-                product=product,
-                text=fake.text()
-            )
+        print(f"Created service: {name}")
 
 
-def create_blog_posts_and_comments(n_posts, n_comments):
+def create_blog_posts(n):
     users = list(CustomUser.objects.all())
-    for _ in range(n_posts):
+    for _ in range(n):
+        title = fake.sentence(nb_words=6)
+        content = fake.text(max_nb_chars=1000)
+        published_date = fake.date_time_this_year()
+
         post = Post.objects.create(
-            title=fake.sentence(),
-            content=fake.text()
+            title=title,
+            content=content,
+            published_date=published_date
         )
-        for _ in range(n_comments):
-            Comment.objects.create(
+        print(f"Created post: {title}")
+
+        for _ in range(3):  # Creating 3 comments per post
+            user = random.choice(users)
+            text = fake.text(max_nb_chars=200)
+            created_at = fake.date_time_this_year()
+
+            comment = Comment.objects.create(
                 post=post,
-                user=random.choice(users),
-                text=fake.text()
+                user=user,
+                text=text,
+                created_at=created_at
             )
+            print(f"Created comment by {user.username} on {post.title}")
 
 
-create_users(10)
-create_products(10)
-create_services(10)
-create_blog_posts_and_comments(10, 3)
+if __name__ == "__main__":
+    create_users(10)
+    create_products(10)
+    create_services(10)
+    create_blog_posts(10)

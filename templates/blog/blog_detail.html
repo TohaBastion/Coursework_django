@@ -9,13 +9,19 @@
     <div class="content mb-4">
         {{ post.content }}
     </div>
-    <h3><u>Коментарі</u></h3>
+    <h4><u>Коментарі</u></h4>
     <div class="comments mb-4">
         {% for comment in comments %}
             <div class="card bg-dark" style="width: max-content">
                 <div class="card-body">
                     <p class="card-text text-light" style="font-size: small">{{ comment.text }}</p>
                     <p class="card-text"><small class="text-muted" style="font-size: x-small">Автор: {{ comment.user.username }} | Дата: {{ comment.created_at }}</small></p>
+                {% if comment.user == request.user %}
+            <form action="{% url 'delete_comment' comment.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+            </form>
+        {% endif %}
                 </div>
             </div>
         {% empty %}
@@ -23,7 +29,7 @@
         {% endfor %}
     </div>
     {% if user.is_authenticated %}
-        <h3>Додати коментар</h3>
+        <h4>Додати коментар</h4>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Замовлення підтверджено{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Ваше замовлення успішно оформлено!</h2>
+    <a href="{% url 'products' %}" class="btn btn-primary">Продовжити покупки</a>
+</div>
+{% endblock %}

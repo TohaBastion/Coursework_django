@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container mt-5 text-center">
     <h1>{{ service.name }}</h1>
-    <img src="{{ service.image.url }}" class="img-fluid" alt="{{ service.name }}">
+    <img src="{{ service.image.url }}" class="img-fluid" alt="{{ service.name }}" width="400" height="300">
     <p>{{ service.description }}</p>
     <p>Ціна: {{ service.price }} грн</p>
     <h3>Коментарі</h3>
@@ -16,6 +16,12 @@
             <strong>{{ comment.user.username }}</strong>
             <p>{{ comment.text }}</p>
             <small>{{ comment.created_at }}</small>
+        {% if comment.user == request.user %}
+            <form action="{% url 'delete_service_comment' comment.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Видалити</button>
+            </form>
+        {% endif %}
         </div>
         {% endfor %}
     </div>
